@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:latlng/latlng.dart';
+import 'package:latlong/latlong.dart';
 import 'package:mds_2021/models/address.dart';
 import 'package:mds_2021/models/company.dart';
 
@@ -7,7 +7,9 @@ import '../routes.dart';
 
 class AddCompany extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
+  Address _address = null;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +37,18 @@ class AddCompany extends StatelessWidget {
               TextFormField(
                 validator: (value) =>
                     value.isEmpty ? 'Le nom ne doit pas être vide' : null,
+                controller: _addressController,
                 decoration: InputDecoration(
                     prefixIcon: Icon(Icons.location_on),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15)),
                     labelText: "Adresse de l'entreprise"),
                 onTap: () async {
-                  Navigator.of(context).pushNamed(Routes.searchAddress);
+                  _address = await Navigator.of(context)
+                      .pushNamed(Routes.searchAddress) as Address;
+                  if (_address != null) {
+                    _addressController.text = _address.fullName();
+                  }
                 },
               ),
               Container(
@@ -62,9 +69,7 @@ class AddCompany extends StatelessWidget {
                         onPressed: () {
                           if (this._formKey.currentState.validate()) {
                             String name = this._nameController.text;
-
-                            Company company = Company(0, name,
-                                new Address("a", "b", "c", new LatLng(0, 0)));
+                            Company company = Company(0, name, _address);
                             Navigator.pop<Company>(context, company);
                           }
                         },

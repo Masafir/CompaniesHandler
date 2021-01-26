@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:latlng/latlng.dart';
+import 'package:latlong/latlong.dart';
 import 'package:mds_2021/models/address.dart';
 import 'package:mds_2021/repositories/repository.dart';
 
@@ -40,13 +40,12 @@ class _SearchAddressState extends State<SearchAddress> {
               child: ListView.separated(
                 itemCount: _addresses.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Address address = _addresses[index];
+                  Address _address = _addresses[index];
                   return ListTile(
                     leading: Icon(Icons.location_city),
                     title: Text(
-                        '${address?.street ?? 'Adresse inconnue'},${address?.city ?? ''}'),
-                    onTap: () => Navigator.pop<Address>(context, this);
-                    ,
+                        '${_address?.street ?? 'Adresse inconnue'},${_address?.city ?? ''}'),
+                    onTap: () => Navigator.pop<Address>(context, _address),
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {

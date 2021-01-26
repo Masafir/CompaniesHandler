@@ -3,4 +3,5 @@ package com.example.cours2
 import io.flutter.embedding.android.FlutterActivity
 
 class MainActivity: FlutterActivity() {
+  GeneratedPluginRegistrant.registerWith(this);
 }
